@@ -1,7 +1,9 @@
 
 import firebase from "./firebase";
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { getDatabase, ref, set, push, onValue, remove, update } from "firebase/database";
 import { useEffect, useState } from "react";
+import Toastify from "../toastify/Toastify";
+
 
 // Add user to DataBase, DeleteUser, UpdateUser, Get a User from Database
 /// all functions are hier
@@ -49,14 +51,42 @@ export const CallUser = () => {
             const databaseArray = [];
 
             for (let id in data) {
-                databaseArray.push(id);
+                databaseArray.push({id, ...data[id]});
+                // burada id dedigimize i de denebilir. Burada diyoruz ki; database deki verilerin her biri üzerinde dön. dataBaseArray e bir object formatinda önce bu verilerin id numarasini at daha sonra bu id numarasina ait detay bilgilerini ser. bu her bir user icin yapilir. 
             }
             setContactList(databaseArray);
             setIsLoading(false);
           });
-    });
+    }, []);
+    return {isLoading, contactList}
+};
 
-    return (
-        <div></div>
-    )
+
+
+
+
+
+////// delete data from database:
+
+export const deleteUser = (id) => {
+    const db = getDatabase();
+    const userRef = ref(db, "database");
+    Toastify("Data is deleted");
+    remove(ref(db, "database/" + id));
+};
+// remove komutu anlami: database adindaki db mizin icine gir ve orada o an ki id mize ait bilgiyi sil. id yi ise map icinde her bir item a ait id yi buraya gönderiyoruz.
+
+
+
+
+
+////// Edit User:
+
+export const EditUser = (info) => {
+    const db = getDatabase();
+    const updates = {};
+    updates["database/" + info.id] = info;
+    // bizim database imiz icine gir, edit tusuna tiklanan kisinin id numarasini al ve bunun bilgilerini güncelle demek
+
+    return update(ref(db), updates);
 };

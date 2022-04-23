@@ -14,8 +14,7 @@ import { AccountCircle } from "@mui/icons-material";
 import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
 
 const FormComponent = ({info, setInfo, handleFormSubmit}) => {
-    console.log()
-
+    
     const handleChange = (e) => {
         e.preventDefault();
         // const name = e.target.name;
@@ -25,7 +24,7 @@ const FormComponent = ({info, setInfo, handleFormSubmit}) => {
     };
   return (
     <Grid
-      textAlign="center"
+      textalign="center"
       verticalAlign="middle"
       direction="column"
       style={{ width: "300" }}

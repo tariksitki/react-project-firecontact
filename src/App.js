@@ -2,7 +2,8 @@ import Contacts from "./contacts/Contacts";
 import "./App.css";
 import FormComponent from "./formComponent/FormComponent";
 import { useState } from "react";
-import { addUser } from "./utils/functions";
+import { addUser, EditUser } from "./utils/functions";
+import { ToastContainer } from "react-toastify";
 
 const initialValues = {
   username: "",
@@ -15,7 +16,17 @@ function App() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    addUser(info);
+    if (info.id) {
+      EditUser(info)
+    } else {
+      addUser(info);
+    }
+  };
+
+  const handleEdit = (id, username, phoneNumber, gender) => {
+    return (
+      setInfo({username, phoneNumber, gender, id})
+    )  
   };
 
   return (
@@ -27,7 +38,8 @@ function App() {
         // onSubmit i ADD butonuna degil formun kendisine onSubmit olarak verdik. 
         // func tanimlamalarini ise burada yapip props olarak gönderdik.
       />
-      <Contacts />
+      <Contacts handleEdit = {handleEdit} />
+      <ToastContainer />
     </div>
   );
 }
